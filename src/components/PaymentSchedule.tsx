@@ -51,7 +51,8 @@ export const PaymentSchedule: React.FC<PaymentScheduleProps> = ({
     <div className="payment-schedule">
       <h3>Harmonogram spłat</h3>
       
-      <div className="schedule-table-wrapper">
+      {/* Desktop/Tablet Table View */}
+      <div className="schedule-table-wrapper desktop-table">
         <table className="schedule-table">
           <thead>
             <tr>
@@ -124,6 +125,94 @@ export const PaymentSchedule: React.FC<PaymentScheduleProps> = ({
             ))}
           </tbody>
         </table>
+      </div>
+
+      {/* Mobile Card View */}
+      <div className="schedule-cards-wrapper mobile-cards">
+        {schedule.map((payment) => (
+          <div 
+            key={payment.month} 
+            className={`payment-card ${payment.customOverpayment !== undefined ? 'custom-overpayment' : ''}`}
+          >
+            <div className="payment-card-header">
+              <div className="payment-month">Rata #{payment.month}</div>
+              <div className="payment-date">{formatDate(payment.date)}</div>
+            </div>
+            
+            <div className="payment-card-body">
+              <div className="payment-row">
+                <span className="payment-label">Rata kapitałowa:</span>
+                <span className="payment-value">{formatCurrency(payment.principalPayment - payment.overpayment)}</span>
+              </div>
+              
+              <div className="payment-row">
+                <span className="payment-label">Rata odsetkowa:</span>
+                <span className="payment-value">{formatCurrency(payment.interestPayment)}</span>
+              </div>
+              
+              <div className="payment-row highlight">
+                <span className="payment-label">Suma rat:</span>
+                <span className="payment-value">{formatCurrency(payment.totalPayment - payment.overpayment)}</span>
+              </div>
+              
+              <div className="payment-row overpayment-row">
+                <span className="payment-label">Nadpłata:</span>
+                <div className="payment-value">
+                  {editingMonth === payment.month ? (
+                    <div className="edit-overpayment">
+                      <input
+                        type="number"
+                        value={editValue}
+                        onChange={(e) => setEditValue(e.target.value)}
+                        onKeyDown={handleKeyPress}
+                        onBlur={saveEdit}
+                        autoFocus
+                        min="0"
+                        step="100"
+                      />
+                    </div>
+                  ) : (
+                    <div className="overpayment-display">
+                      <span 
+                        className={`overpayment-amount ${payment.customOverpayment !== undefined ? 'custom' : 'base'}`}
+                        onClick={() => startEdit(payment.month, payment.overpayment)}
+                      >
+                        {formatCurrency(payment.overpayment)}
+                      </span>
+                      {payment.customOverpayment !== undefined && (
+                        <span className="custom-indicator">*</span>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+              <div className="payment-row">
+                <span className="payment-label">Saldo pozostałe:</span>
+                <span className="payment-value">{formatCurrency(payment.remainingBalance)}</span>
+              </div>
+            </div>
+            
+            <div className="payment-card-actions">
+              <button
+                onClick={() => startEdit(payment.month, payment.overpayment)}
+                className="edit-btn mobile-btn"
+                title="Edytuj nadpłatę"
+              >
+                ⚡ Edytuj nadpłatę
+              </button>
+              {payment.customOverpayment !== undefined && (
+                <button
+                  onClick={() => resetToBase(payment.month)}
+                  className="reset-btn mobile-btn"
+                  title="Przywróć bazową nadpłatę"
+                >
+                  ↺ Przywróć
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
       
       <div className="legend">

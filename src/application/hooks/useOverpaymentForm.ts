@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { OverpaymentInputData } from '../services/MortgageApplicationService';
-import { OverpaymentEffect } from '../../domain/entities/OverpaymentStrategy';
+import type { OverpaymentInputData } from '../services/MortgageApplicationService';
+import type { OverpaymentEffect } from '../../domain/entities/OverpaymentStrategy';
 
 export interface OverpaymentFormData {
   baseAmount: string;

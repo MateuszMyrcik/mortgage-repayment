@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { formatCurrency, formatDate } from '../utils/mortgageCalculations';
+import { trackOverpaymentChange } from '../utils/analytics';
 import type { MonthlyPayment } from '../utils/mortgageCalculations';
 
 interface PaymentScheduleProps {
@@ -25,6 +26,7 @@ export const PaymentSchedule: React.FC<PaymentScheduleProps> = ({
     if (editingMonth !== null) {
       const newAmount = parseFloat(editValue) || 0;
       onOverpaymentChange(editingMonth, newAmount);
+      trackOverpaymentChange(editingMonth, newAmount);
       setEditingMonth(null);
       setEditValue('');
     }
@@ -45,6 +47,7 @@ export const PaymentSchedule: React.FC<PaymentScheduleProps> = ({
 
   const resetToBase = (month: number) => {
     onOverpaymentChange(month, baseOverpayment);
+    trackOverpaymentChange(month, baseOverpayment);
   };
 
   return (

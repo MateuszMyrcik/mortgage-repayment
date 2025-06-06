@@ -7,11 +7,19 @@ export type OverpaymentEffect = 'shorten_term' | 'reduce_payment';
  * Manages base overpayment amounts and custom monthly overrides
  */
 export class OverpaymentStrategy {
+  private _baseAmount: Money;
+  private _effect: OverpaymentEffect;
+  private _customOverpayments: Map<number, Money>;
+
   private constructor(
-    private readonly _baseAmount: Money,
-    private readonly _effect: OverpaymentEffect,
-    private readonly _customOverpayments: Map<number, Money> = new Map()
-  ) {}
+    baseAmount: Money,
+    effect: OverpaymentEffect,
+    customOverpayments: Map<number, Money> = new Map()
+  ) {
+    this._baseAmount = baseAmount;
+    this._effect = effect;
+    this._customOverpayments = customOverpayments;
+  }
 
   static create(
     baseAmount: Money,

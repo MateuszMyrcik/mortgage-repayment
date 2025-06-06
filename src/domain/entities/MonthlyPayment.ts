@@ -6,15 +6,30 @@ import { PaymentDate } from '../value-objects/PaymentDate';
  * Immutable entity with business logic for payment calculations
  */
 export class MonthlyPayment {
+  private _monthNumber: number;
+  private _date: PaymentDate;
+  private _principalPayment: Money;
+  private _interestPayment: Money;
+  private _overpayment: Money;
+  private _remainingBalance: Money;
+  private _isCustomOverpayment: boolean;
+
   private constructor(
-    private readonly _monthNumber: number,
-    private readonly _date: PaymentDate,
-    private readonly _principalPayment: Money,
-    private readonly _interestPayment: Money,
-    private readonly _overpayment: Money,
-    private readonly _remainingBalance: Money,
-    private readonly _isCustomOverpayment: boolean = false
+    monthNumber: number,
+    date: PaymentDate,
+    principalPayment: Money,
+    interestPayment: Money,
+    overpayment: Money,
+    remainingBalance: Money,
+    isCustomOverpayment: boolean = false
   ) {
+    this._monthNumber = monthNumber;
+    this._date = date;
+    this._principalPayment = principalPayment;
+    this._interestPayment = interestPayment;
+    this._overpayment = overpayment;
+    this._remainingBalance = remainingBalance;
+    this._isCustomOverpayment = isCustomOverpayment;
     this.validatePayment();
   }
 

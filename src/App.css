@@ -1,0 +1,787 @@
+/* Import retro/cyberpunk fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+/* CSS Variables for cyberpunk theme */
+:root {
+  --cyber-primary: #00ffff;
+  --cyber-secondary: #ff0080;
+  --cyber-accent: #ffff00;
+  --cyber-warning: #ff4500;
+  --cyber-success: #00ff00;
+  --cyber-bg-dark: #0a0a0a;
+  --cyber-bg-medium: #1a1a2e;
+  --cyber-bg-light: #16213e;
+  --cyber-text-primary: #00ffff;
+  --cyber-text-secondary: #ffffff;
+  --cyber-text-muted: #888888;
+  --cyber-border: #00ffff;
+  --cyber-glow: 0 0 10px currentColor;
+  --cyber-glow-strong: 0 0 20px currentColor, 0 0 30px currentColor;
+}
+
+/* Global styles */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--cyber-bg-dark);
+  color: var(--cyber-text-secondary);
+  font-family: 'Share Tech Mono', monospace;
+  overflow-x: hidden;
+}
+
+/* App Layout */
+.app {
+  min-height: 100vh;
+  background: 
+    linear-gradient(45deg, transparent 30%, rgba(0, 255, 255, 0.03) 30.5%, rgba(0, 255, 255, 0.03) 31%, transparent 31.5%),
+    linear-gradient(-45deg, transparent 30%, rgba(255, 0, 128, 0.03) 30.5%, rgba(255, 0, 128, 0.03) 31%, transparent 31.5%),
+    linear-gradient(90deg, var(--cyber-bg-dark) 0%, var(--cyber-bg-medium) 50%, var(--cyber-bg-dark) 100%);
+  background-size: 50px 50px, 50px 50px, 100% 100%;
+  animation: backgroundPulse 8s ease-in-out infinite alternate;
+}
+
+@keyframes backgroundPulse {
+  0% { filter: brightness(1); }
+  100% { filter: brightness(1.1); }
+}
+
+.app-header {
+  background: linear-gradient(135deg, var(--cyber-bg-medium) 0%, var(--cyber-bg-light) 100%);
+  color: var(--cyber-primary);
+  padding: 2rem 1rem;
+  text-align: center;
+  border-bottom: 2px solid var(--cyber-primary);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+  animation: scanline 3s linear infinite;
+}
+
+@keyframes scanline {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+.app-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-family: 'Orbitron', monospace;
+  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: var(--cyber-glow-strong);
+  animation: titleGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes titleGlow {
+  0% { text-shadow: 0 0 10px var(--cyber-primary), 0 0 20px var(--cyber-primary); }
+  100% { text-shadow: 0 0 20px var(--cyber-primary), 0 0 30px var(--cyber-primary), 0 0 40px var(--cyber-primary); }
+}
+
+.app-header p {
+  margin: 0;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  opacity: 0.9;
+  color: var(--cyber-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.app-main {
+  padding: 1rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.calculator-container {
+  display: grid;
+  gap: 2rem;
+  grid-template-columns: 1fr;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Center layout above 1200px */
+@media (min-width: 1200px) {
+  .app-main {
+    max-width: 1400px;
+    padding: 1rem 2rem;
+  }
+  
+  .calculator-container {
+    max-width: 1400px;
+  }
+}
+
+.app-footer {
+  background: var(--cyber-bg-light);
+  color: var(--cyber-text-muted);
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  border-top: 1px solid var(--cyber-border);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Cyber Form Styles */
+.loan-form, .summary-panel, .payment-schedule {
+  background: var(--cyber-bg-medium);
+  padding: 2rem;
+  border-radius: 0;
+  border: 2px solid var(--cyber-primary);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.loan-form::before, .summary-panel::before, .payment-schedule::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyber-primary), var(--cyber-secondary), var(--cyber-primary));
+  animation: borderScan 2s linear infinite;
+}
+
+@keyframes borderScan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.loan-form h2, .loan-form h3, .summary-panel h3, .payment-schedule h3 {
+  color: var(--cyber-primary);
+  margin: 0 0 1.5rem 0;
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  text-shadow: var(--cyber-glow);
+  border-bottom: 1px solid var(--cyber-secondary);
+  padding-bottom: 0.5rem;
+}
+
+.form-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.form-group label {
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--cyber-accent);
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.form-group input,
+.form-group select {
+  padding: 0.75rem;
+  border: 2px solid var(--cyber-border);
+  border-radius: 0;
+  font-size: 1rem;
+  background: var(--cyber-bg-dark);
+  color: var(--cyber-text-primary);
+  font-family: 'Share Tech Mono', monospace;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  width: 100%;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: var(--cyber-secondary);
+  box-shadow: 
+    0 0 10px var(--cyber-secondary),
+    inset 0 0 10px rgba(255, 0, 128, 0.1);
+  text-shadow: 0 0 5px var(--cyber-primary);
+}
+
+.form-group input:hover,
+.form-group select:hover {
+  border-color: var(--cyber-accent);
+  box-shadow: 0 0 5px var(--cyber-accent);
+}
+
+.form-group input::placeholder {
+  color: var(--cyber-text-muted);
+  opacity: 0.7;
+  font-style: italic;
+}
+
+/* Summary Panel Cyber Styling */
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.summary-card {
+  background: var(--cyber-bg-dark);
+  padding: 1.5rem;
+  border: 1px solid var(--cyber-primary);
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.summary-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--cyber-primary);
+  box-shadow: 0 0 10px var(--cyber-primary);
+}
+
+.summary-card.savings::before { background: var(--cyber-success); box-shadow: 0 0 10px var(--cyber-success); }
+.summary-card.payments::before { background: var(--cyber-warning); box-shadow: 0 0 10px var(--cyber-warning); }
+.summary-card.interest::before { background: var(--cyber-accent); box-shadow: 0 0 10px var(--cyber-accent); }
+.summary-card.term::before { background: var(--cyber-secondary); box-shadow: 0 0 10px var(--cyber-secondary); }
+
+.summary-card h4 {
+  margin: 0 0 1rem 0;
+  color: var(--cyber-primary);
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  font-size: 0.9rem;
+}
+
+.summary-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+.summary-item.highlight {
+  background: rgba(0, 255, 255, 0.1);
+  padding: 0.8rem;
+  border: 1px solid var(--cyber-primary);
+  border-bottom: 1px solid var(--cyber-primary);
+  font-weight: 700;
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.2);
+}
+
+.summary-item .label {
+  font-weight: 500;
+  color: var(--cyber-text-secondary);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.summary-item .value {
+  font-weight: 700;
+  color: var(--cyber-primary);
+  text-shadow: 0 0 5px currentColor;
+  font-family: 'Orbitron', monospace;
+}
+
+.summary-highlight {
+  background: linear-gradient(135deg, var(--cyber-success), var(--cyber-primary));
+  color: var(--cyber-bg-dark);
+  padding: 1.5rem;
+  text-align: center;
+  border: 2px solid var(--cyber-success);
+  box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+}
+
+.summary-highlight p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.highlight-amount {
+  background: var(--cyber-bg-dark);
+  color: var(--cyber-accent);
+  padding: 0.2rem 0.5rem;
+  font-weight: 900;
+  text-shadow: 0 0 10px currentColor;
+  border: 1px solid var(--cyber-accent);
+}
+
+/* Payment Schedule Cyber Styling */
+.schedule-table-wrapper {
+  overflow-x: auto;
+  border: 2px solid var(--cyber-primary);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+  width: 100%;
+}
+
+.schedule-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--cyber-bg-dark);
+  min-width: 900px;
+  font-family: 'Share Tech Mono', monospace;
+}
+
+.schedule-table th {
+  background: linear-gradient(135deg, var(--cyber-primary), var(--cyber-secondary));
+  color: var(--cyber-bg-dark);
+  padding: 1rem 0.75rem;
+  text-align: left;
+  font-weight: 700;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 2px solid var(--cyber-accent);
+  position: relative;
+}
+
+.schedule-table th::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--cyber-accent);
+  box-shadow: 0 0 10px var(--cyber-accent);
+}
+
+.schedule-table td {
+  padding: 0.8rem 0.75rem;
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+  font-size: 0.85rem;
+  color: var(--cyber-text-secondary);
+}
+
+.schedule-table tr:hover {
+  background: rgba(0, 255, 255, 0.05);
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.schedule-table tr.custom-overpayment {
+  background: rgba(255, 255, 0, 0.1);
+  border-left: 3px solid var(--cyber-accent);
+}
+
+.schedule-table tr.custom-overpayment:hover {
+  background: rgba(255, 255, 0, 0.15);
+}
+
+.date-cell {
+  font-weight: 700;
+  color: var(--cyber-primary);
+  min-width: 140px;
+  white-space: nowrap;
+  text-transform: uppercase;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.overpayment-cell {
+  position: relative;
+}
+
+.overpayment-display {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.overpayment-amount {
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.overpayment-amount:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: var(--cyber-primary);
+  box-shadow: 0 0 10px var(--cyber-primary);
+}
+
+.overpayment-amount.custom {
+  background: rgba(255, 255, 0, 0.2);
+  color: var(--cyber-accent);
+  border-color: var(--cyber-accent);
+  box-shadow: 0 0 5px var(--cyber-accent);
+}
+
+.overpayment-amount.base {
+  color: var(--cyber-text-secondary);
+}
+
+.custom-indicator {
+  color: var(--cyber-accent);
+  font-weight: 900;
+  font-size: 1.2rem;
+  text-shadow: 0 0 10px currentColor;
+  animation: pulse 1s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.7; }
+  100% { opacity: 1; }
+}
+
+.edit-overpayment input {
+  width: 100px;
+  padding: 0.4rem;
+  border: 2px solid var(--cyber-secondary);
+  background: var(--cyber-bg-dark);
+  color: var(--cyber-primary);
+  font-size: 0.8rem;
+  font-family: 'Share Tech Mono', monospace;
+  text-transform: uppercase;
+  box-shadow: 0 0 10px var(--cyber-secondary);
+}
+
+.edit-overpayment input:focus {
+  outline: none;
+  box-shadow: 0 0 15px var(--cyber-secondary);
+}
+
+.actions-cell {
+  text-align: center;
+}
+
+.edit-btn, .reset-btn {
+  background: var(--cyber-bg-dark);
+  border: 1px solid var(--cyber-primary);
+  cursor: pointer;
+  padding: 0.3rem 0.5rem;
+  margin: 0 0.2rem;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+  color: var(--cyber-primary);
+}
+
+.edit-btn:hover {
+  background: var(--cyber-primary);
+  color: var(--cyber-bg-dark);
+  box-shadow: 0 0 10px var(--cyber-primary);
+}
+
+.reset-btn:hover {
+  background: var(--cyber-warning);
+  color: var(--cyber-bg-dark);
+  border-color: var(--cyber-warning);
+  box-shadow: 0 0 10px var(--cyber-warning);
+}
+
+.legend {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cyber-border);
+  font-size: 0.8rem;
+  color: var(--cyber-text-muted);
+}
+
+.legend p {
+  margin: 0.5rem 0;
+  text-transform: uppercase;
+}
+
+.legend-item.custom {
+  color: var(--cyber-accent);
+  font-weight: 700;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.legend-item.base {
+  color: var(--cyber-primary);
+  font-weight: 700;
+}
+
+/* Responsive Design for All Screen Sizes */
+@media (max-width: 1200px) {
+  .form-section {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+  
+  .summary-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .app-main {
+    padding: 0.5rem;
+  }
+  
+  .loan-form, .summary-panel, .payment-schedule, .charts-container {
+    padding: 1rem;
+  }
+  
+  .form-section {
+    grid-template-columns: 1fr;
+  }
+  
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .schedule-table {
+    font-size: 0.75rem;
+  }
+  
+  .schedule-table th,
+  .schedule-table td {
+    padding: 0.5rem 0.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-header {
+    padding: 1rem 0.5rem;
+  }
+  
+  .app-header h1 {
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+  }
+  
+  .loan-form, .summary-panel, .payment-schedule, .charts-container {
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+  }
+  
+  .schedule-table {
+    font-size: 0.7rem;
+  }
+  
+  .charts-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+/* Charts Styling */
+.charts-container {
+  background: var(--cyber-bg-medium);
+  padding: 2rem;
+  border: 2px solid var(--cyber-primary);
+  box-shadow: 
+    0 0 20px rgba(0, 255, 255, 0.3),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.charts-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyber-primary), var(--cyber-secondary), var(--cyber-primary));
+  animation: borderScan 2s linear infinite;
+}
+
+.charts-container h3 {
+  color: var(--cyber-primary);
+  margin: 0 0 2rem 0;
+  font-family: 'Orbitron', monospace;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: clamp(1.2rem, 3vw, 1.8rem);
+  text-shadow: var(--cyber-glow);
+  border-bottom: 1px solid var(--cyber-secondary);
+  padding-bottom: 0.5rem;
+  text-align: center;
+}
+
+.charts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  width: 100%;
+}
+
+.chart-card {
+  background: var(--cyber-bg-dark);
+  padding: 1.5rem;
+  border: 1px solid var(--cyber-primary);
+  position: relative;
+  box-shadow: inset 0 0 10px rgba(0, 255, 255, 0.1);
+}
+
+.chart-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: var(--cyber-primary);
+  box-shadow: 0 0 10px var(--cyber-primary);
+}
+
+.chart-card h4 {
+  margin: 0 0 1rem 0;
+  color: var(--cyber-primary);
+  font-family: 'Orbitron', monospace;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.chart-wrapper {
+  height: 300px;
+  position: relative;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--cyber-text-muted);
+}
+
+.no-data-message h3 {
+  color: var(--cyber-accent);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 5px currentColor;
+}
+
+.no-data-message p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cyber-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--cyber-primary);
+  box-shadow: 0 0 10px var(--cyber-primary);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--cyber-secondary);
+  box-shadow: 0 0 10px var(--cyber-secondary);
+}
+
+/* Validation and Loading States */
+.validation-errors {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 20, 147, 0.1);
+  border: 1px solid var(--cyber-secondary);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 20, 147, 0.3);
+}
+
+.error-message {
+  color: var(--cyber-secondary);
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  text-shadow: 0 0 5px var(--cyber-secondary);
+}
+
+.calculating-indicator {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid var(--cyber-primary);
+  border-radius: 8px;
+  text-align: center;
+  animation: pulse 2s infinite;
+}
+
+.calculating-indicator p {
+  color: var(--cyber-primary);
+  margin: 0;
+  font-weight: 500;
+  text-shadow: 0 0 5px var(--cyber-primary);
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}
+
+/* Responsive Charts */
+@media (max-width: 1200px) {
+  .charts-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .chart-wrapper {
+    height: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .charts-container {
+    padding: 1rem;
+  }
+  
+  .charts-grid {
+    gap: 1rem;
+  }
+  
+  .chart-card {
+    padding: 1rem;
+  }
+  
+  .chart-wrapper {
+    height: 200px;
+  }
+}

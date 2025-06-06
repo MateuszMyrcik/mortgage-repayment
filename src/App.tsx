@@ -2,10 +2,7 @@ import { LoanForm } from './components/LoanForm';
 import { PaymentSchedule } from './components/PaymentSchedule';
 import { SummaryPanel } from './components/SummaryPanel';
 import { Charts } from './components/Charts';
-import { CookieConsentWrapper } from './components/CookieConsent';
 import { useMortgageCalculation } from './application/hooks/useMortgageCalculation';
-import { trackMortgageCalculation, hasAnalyticsConsent, initGA } from './utils/analytics';
-import { useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -28,33 +25,12 @@ function App() {
     updateLoanData({ startDate: date });
   };
 
-  // Initialize GA if user has already given consent
-  useEffect(() => {
-    if (hasAnalyticsConsent()) {
-      initGA();
-    }
-  }, []);
-
-  // Track calculations when they're completed
-  useEffect(() => {
-    if (isReady && legacyResult && hasAnalyticsConsent()) {
-      trackMortgageCalculation({
-        loanAmount: loanData.amount,
-        interestRate: loanData.interestRate,
-        termMonths: loanData.termMonths,
-        paymentType: loanData.paymentType,
-        hasOverpayment: overpaymentData.baseAmount > 0
-      });
-    }
-  }, [isReady, legacyResult, loanData, overpaymentData]);
-
   return (
-    <CookieConsentWrapper>
-      <div className="app">
-        <header className="app-header">
-          <h1>Kalkulator Nadpłat Kredytu Hipotecznego</h1>
-          <p>Sprawdź ile możesz zaoszczędzić dzięki nadpłatom kredytu</p>
-        </header>
+    <div className="app">
+      <header className="app-header">
+        <h1>Kalkulator Nadpłat Kredytu Hipotecznego</h1>
+        <p>Sprawdź ile możesz zaoszczędzić dzięki nadpłatom kredytu</p>
+      </header>
 
       <main className="app-main">
         <div className="calculator-container">
@@ -121,11 +97,10 @@ function App() {
         </div>
       </main>
 
-        <footer className="app-footer">
-          <p>Uwaga: Kalkulator służy jedynie do celów orientacyjnych. Rzeczywiste warunki kredytu mogą się różnić.</p>
-        </footer>
-      </div>
-    </CookieConsentWrapper>
+      <footer className="app-footer">
+        <p>Uwaga: Kalkulator służy jedynie do celów orientacyjnych. Rzeczywiste warunki kredytu mogą się różnić.</p>
+      </footer>
+    </div>
   );
 }
 

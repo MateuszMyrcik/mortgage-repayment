@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import type { LoanInputData } from '../services/MortgageApplicationService';
-import type { PaymentType } from '../../domain/entities/Loan';
+import { LoanInputData } from '../services/MortgageApplicationService';
+import { PaymentType } from '../../domain/entities/Loan';
 
 export interface LoanFormData {
   amount: string;

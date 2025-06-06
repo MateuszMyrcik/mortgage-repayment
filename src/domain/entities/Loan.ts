@@ -10,24 +10,13 @@ export type PaymentType = 'equal' | 'decreasing';
  * Contains business rules and validation for loan parameters
  */
 export class Loan {
-  private _principal: Money;
-  private _interestRate: InterestRate;
-  private _term: LoanTerm;
-  private _paymentType: PaymentType;
-  private _startDate: PaymentDate;
-
   private constructor(
-    principal: Money,
-    interestRate: InterestRate,
-    term: LoanTerm,
-    paymentType: PaymentType,
-    startDate: PaymentDate
+    private readonly _principal: Money,
+    private readonly _interestRate: InterestRate,
+    private readonly _term: LoanTerm,
+    private readonly _paymentType: PaymentType,
+    private readonly _startDate: PaymentDate
   ) {
-    this._principal = principal;
-    this._interestRate = interestRate;
-    this._term = term;
-    this._paymentType = paymentType;
-    this._startDate = startDate;
     this.validateLoanParameters();
   }
 
